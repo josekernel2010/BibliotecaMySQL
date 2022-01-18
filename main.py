@@ -1,6 +1,7 @@
 import os
 from tabulate import tabulate
 from libro import *
+import pyfiglet
 
 
 def inicio():
@@ -8,6 +9,9 @@ def inicio():
 
     try:
         while True:
+            titulo = 'Biblioteca  MySQL'
+            a = pyfiglet.figlet_format(titulo)
+            print(a)
             print("**************************")
             print(':: Selecione una opción ::')
             print('**************************')
@@ -48,6 +52,7 @@ def inicio():
         inicio()
 
 
+# 1. NuevoLibro ingreso de libros
 def nuevo_libro():
     con = conectar()
     cursor = con.cursor()
@@ -63,6 +68,7 @@ def nuevo_libro():
     os.system('cls')
 
 
+# 2. Muestra la lista comoleta de libros
 def ver_libros():
     datos = mostrar()
     header = ['ID', 'TITULO', 'AUTOR', 'ESTADO']
@@ -72,6 +78,7 @@ def ver_libros():
     os.system('cls')
 
 
+# 3. Busca un libro por su 'id'
 def buscar_libro():
     id = input("Ingrese el id del libro : ")
     os.system('cls')
@@ -91,6 +98,7 @@ def buscar_libro():
         os.system('cls')
 
 
+# 4. Modifica un libro ya existente en la base de datos
 def modificar_libro():
     id = input("Ingrese el id del modificar : ")
     dato = buscar(id)
@@ -103,20 +111,21 @@ def modificar_libro():
         os.system('cls')
 
     else:
-        header = ['ID', 'TITULO', 'AUTOR', 'ESTADO']
-        tabla = tabulate(dato, header, tablefmt='fancy_grid')
-        print(tabla)
+        campo = '0'
         nuevo_valor = ''
-        print("---------------------------------------")
-        campo = input("Seleccione el campo que desea modificar \n1. Titulo \n2. Autor \n3. Estado \n: ")
-
         while campo not in ['1', '2', '3']:
             os.system('cls')
-            print("--------------------------")
-            print("Escoja una opción correcta")
-            print("--------------------------")
-            campo = input("Seleccione el campo que desea modificar \n1. Titulo \n2. Autor \n3. Estado \n: ")
+            header = ['ID', 'TITULO', 'AUTOR', 'ESTADO']
+            tabla = tabulate(dato, header, tablefmt='fancy_grid')
+            print(tabla)
 
+            print("---------------------------------------")
+            campo = input('Seleccione el campo que desea modificar \n1. Titulo \n2. Autor \n3. Estado \n4. Salir: ')
+            if campo == '4':
+                os.system('cls')
+                return
+        # while campo not in ['1', '2', '3']:
+        #     os.system('cls
         if campo == '1':
             nuevo_valor = input("Ingerse el Titulo del libro : ")
         elif campo == '2':
